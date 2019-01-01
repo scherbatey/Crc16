@@ -77,6 +77,7 @@ class Crc16 {
         }
         inline void clearCrc();
         inline void updateCrc(uint8_t data);
+	inline void updateCrc(const uint8_t * data, uint8_t start, uint16_t length);
         inline uint16_t getCrc();
         inline unsigned int fastCrc(const uint8_t * data, uint8_t start, uint16_t length, uint8_t reflectIn, uint8_t reflectOut, uint16_t polynomial, uint16_t xorIn, uint16_t xorOut, uint16_t msbMask, uint16_t mask);
         inline unsigned int XModemCrc(const uint8_t * data, uint8_t start, uint16_t length)
@@ -121,6 +122,12 @@ void Crc16::updateCrc(uint8_t data)
 
 		j >>= 1;
 	}
+}
+
+void Crc16::updateCrc(const uint8_t * data, uint8_t start, uint16_t length)
+{
+	for (int i = start, end = start + length; i < end; ++i)
+		updateCrc(data[i]);
 }
 
 //---------------------------------------------------
